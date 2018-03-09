@@ -142,6 +142,10 @@ class PatientsController extends AppController
      */
     public function edit($id = null)
     {
+        if ($this->Auth->User('role') > 0) {
+            $this->Flash->error(__('You do not have permission to access this page.'));
+            return $this->redirect(['controller' =>'patients']);
+        }
 
         $patient = $this->Patients->get($id, [
             'contain' => ['Sessions']

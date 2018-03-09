@@ -138,7 +138,7 @@ class SessionsController extends AppController
      * @return void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit($id = null, $prev_search = null)
     {
 
         $astat = $this->Sessions->Sessionstats->find('list', [
@@ -166,7 +166,11 @@ class SessionsController extends AppController
             if ($this->Sessions->save($session)) {
                 $this->Flash->success(__('The session has been saved.'));
                 $pat_id = $this->Sessions->Patients->find('all', ['conditions' => ['PatientID =' => $session->PatientID]])->first()['id'];
-                return $this->redirect(['controller' => 'Patients', 'action' => 'view', $pat_id]);
+                if ($prev_search != null) {
+                    return $this->redirect(['controller' => 'Sessions', 'action' => 'search', $prev_search]);
+                } else {
+                    return $this->redirect(['controller' => 'Patients', 'action' => 'view', $pat_id]);
+                }
             } else {
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
@@ -185,6 +189,7 @@ class SessionsController extends AppController
             $this->set('patient', $this->Sessions->Patients);
             $this->set('therapist', $this->Sessions->Users);
             $this->set('office', $this->Sessions->Offices);
+            $this->set('prev_search', $query);
             $sessions = $this->Sessions->find('all', ['conditions' => ['Status =' => $query]]);
             $this->set('sessions', $this->paginate($sessions));
             $this->set('_serialize', ['patients']);

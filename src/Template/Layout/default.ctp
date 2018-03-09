@@ -47,7 +47,7 @@ $cakeDescription = 'Alumma San Diego';
                 <?php if($loggedIn) : ?>
                     <li><?= $this->Html->link('Patients', ['controller' => 'patients']); ?></li>
                     <li><?= $this->Html->link('My Week', ['controller' => 'MyWeek']); ?></li>
-                    <li><?= $this->Html->link('My Schedule', ['controller' => 'calendars', 'action' => 'schedule']); ?></li>
+                   <!-- <li><?= $this->Html->link('My Schedule', ['controller' => 'calendars', 'action' => 'schedule']); ?></li> -->
                     <li><?= $this->Html->link('Office Schedules', ['controller' => 'calendars', 'action' => 'offices']); ?></li>
                     <?php if($this->request->session()->read('Auth.User.role') < 1): ?>
                         <li><?= $this->Html->link('Sessions', ['controller' => 'sessions']); ?></li>

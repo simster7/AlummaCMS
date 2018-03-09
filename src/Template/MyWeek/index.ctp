@@ -432,7 +432,7 @@ span#ui-id-2 {
 <body>
 <center>
 
-    <div id="eventContent" title="Event Details" style="display:none;z-index: 5; position: relative;">
+    <div id="eventContent" title="Event Details" class="simon-window">
         Patient: <a id="linkE" href=""><span id="patName"></span></a><br>
         Session: <span id="startTime"></span><br><br>
         <button id="show">Show</button>&nbsp;&nbsp;&nbsp;<button id="noShow">No Show</button><br><br>

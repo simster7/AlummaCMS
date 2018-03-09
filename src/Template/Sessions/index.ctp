@@ -17,8 +17,8 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th><?= $this->Paginator->sort('SessionID') ?></th>
-                <th><?= $this->Paginator->sort('PatientID') ?></th>
+                <!-- <th><?= $this->Paginator->sort('SessionID') ?></th> -->
+                <!--<th><?= $this->Paginator->sort('PatientID') ?></th> -->
                 <th><?= $this->Paginator->sort('Patient Name') ?></th>
                 <th><?= $this->Paginator->sort('Therapist') ?></th>
                 <th><?= $this->Paginator->sort('SessionDate') ?></th>
@@ -35,8 +35,8 @@
                     $pat = $patient->find('all', ['conditions' => ['PatientID =' => $session->PatientID]])->first();
                     $fullName = $pat->FirstName . " " . $pat->LastName;
                 ?>
-                <td><?= h($session->SessionID) ?></td>
-                <td><?= h($session->PatientID) ?></td>
+                <!-- <td><?= h($session->SessionID) ?></td> -->
+                <!-- <td><?= h($session->PatientID) ?></td> -->
                 <td><?= h($fullName) ?></td>
                 <td><?= h($therapist->get($session->Therapist)->LastName) ?></td>
                 <td><?= h($session->SessionDate) ?></td>

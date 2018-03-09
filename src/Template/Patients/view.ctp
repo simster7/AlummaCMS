@@ -75,18 +75,20 @@
         <h4><?= __('Sessions') ?></h4>
 
         <?php
-            echo $this->Html->link(__('Add 1 session'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 1]);
-            echo "\n";
-            echo $this->Html->link(__('Add 2 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 2]);
-            echo "\n";
-            echo $this->Html->link(__('Add 3 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 3]);
-            echo "\n";
-            echo $this->Html->link(__('Add 4 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 4]);
-            echo "\n";
-            echo $this->Html->link(__('Add 5 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 5]);
-            echo "\n";
-            echo $this->Html->link(__('Add 6 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 6]);
-            echo "\n";
+            if($this->request->session()->read('Auth.User.role') < 1) {
+                echo $this->Html->link(__('Add 1 session'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 1]);
+                echo "\n";
+                echo $this->Html->link(__('Add 2 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 2]);
+                echo "\n";
+                echo $this->Html->link(__('Add 3 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 3]);
+                echo "\n";
+                echo $this->Html->link(__('Add 4 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 4]);
+                echo "\n";
+                echo $this->Html->link(__('Add 5 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 5]);
+                echo "\n";
+                echo $this->Html->link(__('Add 6 sessions'), ['controller' => 'Sessions', 'action' => 'add', $patient->PatientID, 6]);
+                echo "\n";
+            }
         ?> 
 
         <?php if (!empty($patient->sessions)): ?>

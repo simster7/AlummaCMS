@@ -76,7 +76,7 @@ class MyWeekController extends AppController
         $open_session = $sessionTable->find('all', ['conditions' => ['PatientID =' => $pat_id, 'Status =' => '0']])->first();
         if ($open_session == null) {
             echo "Error: no open session found!";
-            die();
+            die(); 
         }
         $session = $sessionTable->get($open_session->SessionID);
         if ($session->Status == 0) {
@@ -110,6 +110,7 @@ class MyWeekController extends AppController
                 die();
             } else {
                 $session->Status = 0;
+                $session->SessionDate = null;
                 $sessionTable->save($session);
                 echo "Session reset to approved";
                 die();

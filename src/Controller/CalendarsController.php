@@ -63,12 +63,16 @@ class CalendarsController extends AppController
                 $cache[$pat_id] = [$name, $pat_prof['id'], $color, $short_name];
             }
             $out .= '{';
-            $out .= 'title: "'.$name.' ['.$short_name.']",';
             $out .= 'start: "'.$sess['SessionDate']->format('Y-m-d\TH:i:s').'",';
             $end_time = $sess['SessionDate']->modify('+45 minutes');
             $out .= 'end: "'.$end_time->format('Y-m-d\TH:i:s').'",';
-            $out .= 'color: "'.$color.'",';
-            $out .= 'url: "../patients/view/'.$cache[$pat_id][1].'/",';
+            if ($this->Auth->User('role') < 2) {
+                $out .= 'title: "'.$name.' ['.$short_name.']",';
+                $out .= 'color: "'.$color.'",';
+                $out .= 'url: "../patients/view/'.$cache[$pat_id][1].'/",';
+            } else {
+                $out .= 'title: "BUSY",';
+            }
             $out .= '},';
         }
         $out .= ']';
