@@ -67,8 +67,13 @@ class CalendarsController extends AppController
             $end_time = $sess['SessionDate']->modify('+45 minutes');
             $out .= 'end: "'.$end_time->format('Y-m-d\TH:i:s').'",';
             if ($this->Auth->User('role') < 2) {
-                $out .= 'title: "'.$name.' ['.$short_name.']",';
-                $out .= 'color: "'.$color.'",';
+                if ($sess['Status'] == 8) {
+                    $out .= 'title: "[TENTATIVE] '.$name.' ['.$short_name.']",';
+                    $out .= 'color: "#c4c5c6",';
+                } else {
+                    $out .= 'title: "'.$name.' ['.$short_name.']",';
+                    $out .= 'color: "'.$color.'",';
+                }
                 $out .= 'url: "../patients/view/'.$cache[$pat_id][1].'/",';
             } else {
                 $out .= 'title: "BUSY",';

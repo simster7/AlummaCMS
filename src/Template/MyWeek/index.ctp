@@ -94,8 +94,11 @@ $(document).ready(function() {
                         type: 'POST',
                         data: values,
                         success: function(data) {
-                            if (data === 'success') {
-                                //alert("Session scheduled successfuly");
+                            if (data === 'success' || data[0] === '%') {
+                                if (data[0] === '%') {
+                                    alert(data.slice(1));
+                                    patientName = '[TENTATIVE] ' + patientName;
+                                }
                                 var end = new Date(datetime);
                                 end.setMinutes(end.getMinutes() + 45 - end.getTimezoneOffset());
                                 $('#week_calendar').fullCalendar('renderEvent',

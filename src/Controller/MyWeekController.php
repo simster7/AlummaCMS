@@ -50,7 +50,12 @@ class MyWeekController extends AppController
                 continue;
             }
             $out .= '{';
-            $out .= 'title: "'.$name.'\n'.$sessions_left.' approved sessions left",';
+            if ($sess['Status'] == 8) {
+                $out .= 'title: "[TENTATIVE] '.$name.'\n'.$sessions_left.' approved sessions left",';
+                $out .= 'color: "#c4c5c6",';
+            } else {
+                $out .= 'title: "'.$name.'\n'.$sessions_left.' approved sessions left",';
+            }
             $out .= 'start: "'.$sess['SessionDate']->format('Y-m-d\TH:i:s').'",';
             $end_time = $sess['SessionDate']->modify('+45 minutes');
             $out .= 'end: "'.$end_time->format('Y-m-d\TH:i:s').'",';
@@ -75,7 +80,23 @@ class MyWeekController extends AppController
         $sessionTable = $this->loadModel('Sessions');
         $open_session = $sessionTable->find('all', ['conditions' => ['PatientID =' => $pat_id, 'Status =' => '0']])->first();
         if ($open_session == null) {
-            echo "Error: no open session found!";
+            $datum = $sessionTable->find('all', ['conditions' => ['PatientID =' => $pat_id]])->first();
+            $new_session = $sessionTable->newEntity(['PatientID' => $pat_id,
+                            'Therapist' => $datum->Therapist,
+                            'SessionDate' => $schedule_datetime,
+                            'AuthorizedDate' => Null,
+                            'Status' => 8,
+                            'Office' => $datum->Office,
+                            'FileID' => Null,
+                            'ClaimID' => Null,
+                            'MasterVendor' => Null,
+                            'AuthorizationNumber' => Null]);
+            //debug($new_session);
+            if($sessionTable->save($new_session)) {
+                echo "%No open session for this patient was found, created a tentative session!";
+            } else {
+                echo "Error in creating a tentative session.";
+            }
             die(); 
         }
         $session = $sessionTable->get($open_session->SessionID);
