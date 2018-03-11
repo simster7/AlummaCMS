@@ -7,9 +7,6 @@
                 ['confirm' => __('Are you sure you want to delete # {0}?', $patient->id)]
             )
         ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Posts'), ['controller' => 'Posts', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Post'), ['controller' => 'Posts', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="patients form large-9 medium-8 columns content">
