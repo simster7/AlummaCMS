@@ -130,7 +130,8 @@ $(document).ready(function() {
                     },
                     editable: false,
                     slotDuration: '00:15:00', 
-                    scrollTime: '08:00:00',
+                    minTime: '08:00:00',
+                    maxTime: '21:00:00',
                     zIndex: 0,
                     droppable: false, // this allows things to be dropped onto the calendar
                     dragRevertDuration: 0,
@@ -238,7 +239,8 @@ $(document).ready(function() {
                     },
                     editable: false,
                     slotDuration: '00:15:00', 
-                    scrollTime: '08:00:00',
+                    minTime: '08:00:00',
+                    maxTime: '21:00:00',
                     zIndex: 0,
                     droppable: false, // this allows things to be dropped onto the calendar
                     dragRevertDuration: 0,
