@@ -27,7 +27,11 @@ class MyWeekController extends AppController
 
     private function generate_contents($office, $ther, $cache, $patients) {
         $sessionTable = $this->loadModel('Sessions');
-        $sessions = $sessionTable->find('all', ['conditions' => ['Therapist =' => $ther]])->toArray();
+        if ($this->Auth->User('role') < 2) {
+            $sessions = $sessionTable->find('all', ['conditions' => ['OR' => ['Therapist =' => $ther, 'Therapist =' => 3]]])->toArray();
+        } else {
+            $sessions = $sessionTable->find('all', ['conditions' => ['Therapist =' => $ther]])->toArray();
+        }
 
         $selectOut = '<select id="selectPatient" class="js-example-basic-single">';
         $out = '[';
