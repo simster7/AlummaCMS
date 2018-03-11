@@ -9,5 +9,7 @@ class OfficesTable extends Table
     {
         $this->belongsToMany('Sessions')
         	 ->setForeignKey('Offce');
+        $this->belongsToMany('Patients')
+        	 ->setForeignKey('Offce');
     }
 }

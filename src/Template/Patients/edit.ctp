@@ -31,7 +31,7 @@
             echo $this->Form->control('CaseNumber');
             echo $this->Form->control('PCP');
             echo $this->Form->control('PrimaryTherapist', ['options' => $ather]);
-            echo $this->Form->control('SecondaryTherapist', ['options' => $ather]);
+            echo $this->Form->control('Office', ['options' => $aoff]);
             echo $this->Form->control('DateEntered');
             echo $this->Form->control('Diagnostic');
             echo $this->Form->control('Status', ['options' => $astat]);

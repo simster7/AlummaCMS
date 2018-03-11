@@ -63,6 +63,10 @@
             <td><?= h($therapist->get($patient->PrimaryTherapist)->LastName) ?></td>
         </tr>
         <tr>
+            <th><?= __('Office') ?></th>
+            <td><?= h($office->get($patient->Office)->Name) ?></td>
+        </tr>
+        <tr>
             <th><?= __('Diagnostic') ?></th>
             <td><?= h($patient->Diagnostic) ?></td>
         </tr>
