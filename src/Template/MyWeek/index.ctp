@@ -94,8 +94,11 @@ $(document).ready(function() {
                         type: 'POST',
                         data: values,
                         success: function(data) {
-                            if (data === 'success') {
-                                //alert("Session scheduled successfuly");
+                            if (data === 'success' || data[0] === '%') {
+                                if (data[0] === '%') {
+                                    alert(data.slice(1));
+                                    patientName = '[TENTATIVE] ' + patientName;
+                                }
                                 var end = new Date(datetime);
                                 end.setMinutes(end.getMinutes() + 45 - end.getTimezoneOffset());
                                 $('#week_calendar').fullCalendar('renderEvent',
@@ -127,7 +130,8 @@ $(document).ready(function() {
                     },
                     editable: false,
                     slotDuration: '00:15:00', 
-                    scrollTime: '08:00:00',
+                    minTime: '08:00:00',
+                    maxTime: '21:00:00',
                     zIndex: 0,
                     droppable: false, // this allows things to be dropped onto the calendar
                     dragRevertDuration: 0,
@@ -235,7 +239,8 @@ $(document).ready(function() {
                     },
                     editable: false,
                     slotDuration: '00:15:00', 
-                    scrollTime: '08:00:00',
+                    minTime: '08:00:00',
+                    maxTime: '21:00:00',
                     zIndex: 0,
                     droppable: false, // this allows things to be dropped onto the calendar
                     dragRevertDuration: 0,

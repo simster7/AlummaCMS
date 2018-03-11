@@ -113,6 +113,12 @@ class PatientsController extends AppController
         ])->toArray();
         $this->set('ather', $ather);
 
+        $aoff = $this->Patients->Offices->find('list', [
+            'keyField' => 'ID',
+            'valueField' => 'Name'
+        ])->toArray();
+        $this->set('aoff', $aoff);
+
         $astat = $this->Patients->Patientstats->find('list', [
             'keyField' => 'id',
             'valueField' => 'Status'
@@ -123,6 +129,26 @@ class PatientsController extends AppController
         if ($this->request->is('post')) {
             $patient = $this->Patients->patchEntity($patient, $this->request->data);
             if ($this->Patients->save($patient)) {
+                if ($this->request->data['Add_a_diagnostic_session']) {
+                    $sessionTable = $this->loadModel('Sessions');
+                    $new_session = $sessionTable->newEntity(['PatientID' => $patient->PatientID,
+                                    'Therapist' => $patient->PrimaryTherapist,
+                                    'SessionDate' => Null,
+                                    'AuthorizedDate' => Null,
+                                    'Status' => 0,
+                                    'Office' => $patient->Office,
+                                    'FileID' => Null,
+                                    'ClaimID' => Null,
+                                    'MasterVendor' => Null,
+                                    'AuthorizationNumber' => Null]);
+                    //debug($new_session);
+                    if ($sessionTable->save($new_session)) {
+                        $this->Flash->success(__('The patient has been saved.'));
+                        return $this->redirect(['action' => 'index']);
+                    } else {
+                        $this->Flash->error(__('The patient could not be saved. Please, try again.'));
+                    }
+                }
                 $this->Flash->success(__('The patient has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
@@ -156,6 +182,12 @@ class PatientsController extends AppController
             'valueField' => 'LastName'
         ])->toArray();
         $this->set('ather', $ather);
+
+        $aoff = $this->Patients->Offices->find('list', [
+            'keyField' => 'ID',
+            'valueField' => 'Name'
+        ])->toArray();
+        $this->set('aoff', $aoff);
 
         $astat = $this->Patients->Patientstats->find('list', [
             'keyField' => 'id',

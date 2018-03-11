@@ -16,6 +16,9 @@ class PatientsTable extends Table
 
         $this->hasOne('Patientstats')
         	 ->setForeignKey('ID');
+
+        $this->hasOne('Offices')
+             ->setForeignKey('ID');
     }
 
     protected function _getFullName() {
