@@ -28,7 +28,7 @@ class MyWeekController extends AppController
     private function generate_contents($office, $ther, $cache, $patients) {
         $sessionTable = $this->loadModel('Sessions');
         if ($this->Auth->User('role') < 2) {
-            $sessions = $sessionTable->find('all', ['conditions' => ['OR' => ['Therapist =' => $ther, 'Therapist =' => 3]]])->toArray();
+            $sessions = $sessionTable->find('all', ['conditions' => ['OR' => [['Therapist =' => $ther], ['Therapist =' => 3]]]])->toArray();
         } else {
             $sessions = $sessionTable->find('all', ['conditions' => ['Therapist =' => $ther]])->toArray();
         }
