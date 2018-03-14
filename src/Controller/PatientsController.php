@@ -199,7 +199,7 @@ class PatientsController extends AppController
             $patient = $this->Patients->patchEntity($patient, $this->request->data);
             if ($this->Patients->save($patient)) {
                 $this->Flash->success(__('The patient has been saved.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $patient->id]);
             } else {
                 $this->Flash->error(__('The patient could not be saved. Please, try again.'));
             }
@@ -221,13 +221,13 @@ class PatientsController extends AppController
             $this->Flash->error(__('You do not have permission to access this page.'));
             return $this->redirect(['controller' =>'patients']);
         }
-        // $this->request->allowMethod(['post', 'delete']);
-        // $user = $this->Users->get($id);
-        // if ($this->Users->delete($user)) {
-        //     $this->Flash->success(__('The user has been deleted.'));
-        // } else {
-        //     $this->Flash->error(__('The user could not be deleted. Please, try again.'));
-        // }
-        // return $this->redirect(['action' => 'index']);
+        $this->request->allowMethod(['post', 'delete']);
+        $user = $this->Patients->get($id);
+        if ($this->Patients->delete($user)) {
+            $this->Flash->success(__('The pateint has been deleted.'));
+        } else {
+            $this->Flash->error(__('The pateint could not be deleted. Please, try again.'));
+        }
+        return $this->redirect(['action' => 'index']);
     }
 }
