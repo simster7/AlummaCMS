@@ -4,7 +4,7 @@
     </ul>
 </nav>
 <div class="sessions form large-9 medium-8 columns content">
-    <?= "Adding ".$NumberOfSessions." sessions" ?>
+    <?= $add_text ?>
     <?= $this->Form->create() ?>
     <fieldset>
         <legend><?= __('Add Session') ?></legend>

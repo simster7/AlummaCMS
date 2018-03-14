@@ -98,9 +98,44 @@ class SessionsController extends AppController
         }
 
         $data = $this->request->data; 
-        $data = array_fill(0, $NumberOfSessions, $data);
-        $entities = $this->Sessions->newEntities($data);
-        $this->set('NumberOfSessions', $NumberOfSessions);
+        $tentative_sessions = $this->Sessions->find('all', ['conditions' => ['PatientID =' => $PatientID, 'Status =' => 8]])->toArray();
+        if ($tentative_sessions > 0 && $NumberOfSessions >= sizeof($tentative_sessions)) {
+            $new_sessions = $NumberOfSessions - sizeof($tentative_sessions);
+            $this->set('add_text', 'Adding '.$new_sessions.' new sessions and replacing '.sizeof($tentative_sessions).' tentative sessions into scheduled sessions.');
+
+            $data = array_fill(0, $new_sessions, $data);
+            $entities = $this->Sessions->newEntities($data);
+
+            foreach ($tentative_sessions as $sess) {
+                $sess->Status = 1;
+                $sess->AuthorizedDate = $entities[0]->AuthorizedDate;
+                $sess->FileID = $entities[0]->FileID;
+                $sess->ClaimID = $entities[0]->ClaimID;
+                $sess->MasterVendor = $entities[0]->MasterVendor;
+                $sess->AuthorizationNumber = $entities[0]->AuthorizationNumber;
+            }
+            $entities = array_merge($entities, $tentative_sessions);
+
+        } else if ($tentative_sessions > 0 && $NumberOfSessions < sizeof($tentative_sessions)) {
+            $this->set('add_text', 'Replacing '.$NumberOfSessions.' tentative sessions into scheduled sessions. '.(sizeof($tentative_sessions) - $NumberOfSessions).' sessions will remain marked as tentative.');
+
+            $entities = $this->Sessions->newEntity($data);
+            $tentative_sessions = array_slice($tentative_sessions, 0, $NumberOfSessions);
+            foreach ($tentative_sessions as $sess) {
+                $sess->Status = 1;
+                $sess->AuthorizedDate = $entities->AuthorizedDate;
+                $sess->FileID = $entities->FileID;
+                $sess->ClaimID = $entities->ClaimID;
+                $sess->MasterVendor = $entities->MasterVendor;
+                $sess->AuthorizationNumber = $entities->AuthorizationNumber;
+            }
+            $entities = $tentative_sessions;
+
+        } else {
+            $this->set('add_text', 'Adding '.$NumberOfSessions.' sessions');
+            $data = array_fill(0, $NumberOfSessions, $data);
+            $entities = $this->Sessions->newEntities($data);
+        }
 
         if ($this->request->is('post')) {
             if ($this->Sessions->saveMany($entities)) {
